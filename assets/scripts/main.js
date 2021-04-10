@@ -1,28 +1,33 @@
 console.log('js connected');
 
-let googleUrl = 'https://www.google.com/';
-var qrCodeUrl = 'https://app.ticketmaster.com/discovery/v2/events.json?countryCode=US&apikey=0PYM69m0qo3ESz77SMGYGdnR0YZKo3oM';
+// ticketmaster API using the city query
+let tmApiRequest = 'https://app.ticketmaster.com/discovery/v2/events.json?city=philadelphia&apikey=0PYM69m0qo3ESz77SMGYGdnR0YZKo3oM';
+// open weather API call using the city query
+let owApiRequest = 'http://api.openweathermap.org/geo/1.0/direct?q=philadelphia,pa,us&limit=2&appid=84d61ff029585a95fbd34cf405a10229';
  
-/*  var qrCodeUrl = 'http://api.openweathermap.org/geo/1.0/direct?q=philadelphia,pa,us&limit=2&appid=84d61ff029585a95fbd34cf405a10229';
- */
+  // TICKET MASTER API CALL
+  const getTmData = async () => {
+    const tmResponse = await fetch(tmApiRequest);
+    const tmData = await tmResponse.json();
+    let tmEmbeddedKey = tmData._embedded;
+    // events object
+    let tmEvents = tmEmbeddedKey.events;
+    console.log(tmEvents)
+    return tmData;
+}
 
-fetch(qrCodeUrl).then((response) => {
-    return response.json();    
-  })
-  .then((data) => { 
-      console.log('err')
-      console.log(data);
-  }) 
-
+  // OPEN WEATHER API CALL
+  const getOwData = async () => {
+    const owResponse = await fetch(owApiRequest);
+    const owData = await owResponse.json();
+    let owKey = owData[0];
+    // name object
+    let cityName = owKey.name;
+    console.log(cityName);
   
-/*   
+    return owData;
+}
 
-const getData = async () => {
-  const response = await fetch(qrCodeUrl);
-  const data = await response.json();
-  const dataObj = data;
-  console.log(dataObj);
-
-  }
-
-  getData(); */
+// call functions to get data from url querys
+getTmData();
+getOwData();
