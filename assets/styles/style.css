@@ -112,3 +112,34 @@
   border: 0;
   box-shadow: none;
 }
+
+.four-up-feature {
+  text-align: center;
+}
+
+.four-up-feature .four-up-feature-header {
+  margin-bottom: 3rem;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.four-up-feature .four-up-feature-image {
+  margin-bottom: 2rem;
+}
+
+.four-up-feature .four-up-feature-text {
+  margin-bottom: 2rem;
+}
+
+.main-block {
+  margin: 50px;
+  padding: 10px;
+  border: 1px black solid;
+  background-color: rgba(255, 255, 255, 0.774);
+}
+
+body {
+  background: linear-gradient(to bottom right, rgb(128, 183, 255), white, rgb(128, 183, 255), white, rgb(128, 183, 255));
+}
+
