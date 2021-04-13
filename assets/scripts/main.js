@@ -72,7 +72,6 @@ let iconObj = []
     $('#icon3').attr('src', `https://openweathermap.org/img/wn/${owData.hourly[3].weather[0].icon}@2x.png`)
     $('#icon4').attr('src', `https://openweathermap.org/img/wn/${owData.hourly[4].weather[0].icon}@2x.png`)
     
-
     console.log(hourObj)
     console.log(owData);
     return owData;
