@@ -143,3 +143,13 @@ body {
   background: linear-gradient(to bottom right, rgb(128, 183, 255), white, rgb(128, 183, 255), white, rgb(128, 183, 255));
 }
 
+.forecastCard {
+  background-color: blue;
+  color: white;
+  padding: 10px;
+}
+
+.weatherHeading {
+  padding-bottom: 15px;
+}
+
