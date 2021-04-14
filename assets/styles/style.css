@@ -1,5 +1,15 @@
+.custom-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: larger;
+}
+
+.custom-nav li a{
+  color: rgb(201, 108, 21);
+  font-family: 'Montserrat', sans-serif;
+}
+
 .hero-search-filter {
-  background: url(coverphoto.jpg) center center no-repeat;
+  background: url(coverphoto.jpeg) center center no-repeat;
   height: 300px;
   background-size: cover;
   display: -webkit-flex;
@@ -124,32 +134,54 @@
   display: flex;
 }
 
-.four-up-feature .four-up-feature-image {
-  margin-bottom: 2rem;
-}
-
-.four-up-feature .four-up-feature-text {
-  margin-bottom: 2rem;
-}
-
 .main-block {
   margin: 50px;
   padding: 10px;
-  border: 1px black solid;
-  background-color: rgba(255, 255, 255, 0.774);
+}
+
+.weather-block {
+  background-color: rgb(233, 233, 233);
+  background-size: 100% 100%;
 }
 
 body {
-  background: linear-gradient(to bottom right, rgb(128, 183, 255), white, rgb(128, 183, 255), white, rgb(128, 183, 255));
+  font-family: 'Montserrat', sans-serif;
+}
+
+.custom-card {
+  background-color: rgb(252, 202, 168);
+  
 }
 
 .forecastCard {
-  background-color: blue;
+  background-color: rgb(252, 202, 168);
   color: white;
-  padding: 10px;
+  padding: 15px;
+  border: none;
+  border-radius: 10px;
 }
 
 .weatherHeading {
   padding-bottom: 15px;
 }
 
+.custom-input {
+  width: 50%;
+}
+
+.custom-button {
+  background-color: rgb(214, 138, 67);
+}
+
+.custom-button:hover {
+  background-color: rgb(201, 108, 21);
+}
+
+.headtext {
+  font-weight: bolder;
+}
+
+.subtext {
+  color:  rgb(201, 108, 21);
+  padding-bottom: 40px;
+}
