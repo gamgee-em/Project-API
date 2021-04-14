@@ -22,6 +22,7 @@ let currentDate = moment().format('YYYY-MM-DD');
     let tmEvents = tmEmbeddedKey.events;
     // gets date for event
     let dates = tmEvents[0].dates.start.localDate;
+    
     //console.log(tmEvents)
     console.log(currentDate)
 
@@ -32,20 +33,49 @@ let currentDate = moment().format('YYYY-MM-DD');
       console.log('Search btn clicked!');
     
 
-    tmEvents.forEach((date, i) => {
-      if (currentDate == tmEvents[i].dates.start.localDate) {
-        eventObj.push(date)
-        // not working yet
-        console.log(date)
+      tmEvents.forEach((date, i) => {
+        // updates event title in card
+        $('#title0').html(tmEvents[0].name)
+        // updates event image in card
+        $('#img0').attr({
+          src: tmEvents[0].images[0].url
+        });
+        
+        // updates link url in card
+        $('#url-link0').attr({
+          // changes html tag href to event page url
+          href: tmEvents[0].url,
+          // opens link in new tab
+          target: '_blank'
+        }).html('Click for Ticket Sales');
+        
+        // updates weather h4 html text to users city
+        $('#your-city-weather').html(`Today's weather in ${tmEvents[0]._embedded.venues[0].city.name}`);
+        
+        // updates event card h4 html text to users city
+        // might want to leave this text as 'Events happening in your area today'
+        $('#your-city-card').html(`Events happening in ${tmEvents[0]._embedded.venues[0].city.name} today!`);
+        // updates event card p html text to event distance from you
+        $('#distance0').html(`Distance to Venue: ${tmEvents[0].distance} miles`)
 
-        $('#event-title1').html(tmEvents[i])
-      }
+        // adds link to twitter account
+        $('#tweet0').attr({
+          href: tmEvents[0]._embedded.attractions[0].externalLinks.twitter[0].url,
+          target: '_blank'
+        }).html('Click for latest Tweet!');
 
-      console.log('loop is being reached')
+        // condition not executing although valid
+        // checked ticketmaster.com for events happening today &
+        // returned 6 results from varying sources
+        // look into sources
+        if (currentDate == tmEvents[i].dates.start.localDate) {
+          eventObj.push(date)
+        }
+        console.log('loop is being reached')
+      });
+
     });
-
-    });
-    console.log(tmEvents[0].dates.start.localDate)
+    console.log(tmEvents[0]._embedded.attractions[0].externalLinks.twitter[0].url)
 
     return tmData;
 }
@@ -118,7 +148,7 @@ function geoLocate() {
     let latlon= `${position.coords.latitude},${position.coords.longitude}`;
 
     // use obj literal to concat lat & lon to url query
-    tmApiRequest = `https://app.ticketmaster.com/discovery/v2/events.json?latlong=${latlon}&radius=200&unit=miles&size=200&apikey=0PYM69m0qo3ESz77SMGYGdnR0YZKo3oM`;
+    tmApiRequest = `https://app.ticketmaster.com/discovery/v2/events.json?latlong=${latlon}&source=ticketmaster,universe,frontgate,tmr&radius=200&unit=miles&size=200&apikey=0PYM69m0qo3ESz77SMGYGdnR0YZKo3oM`;
     // open weather API call using the city query
     owApiRequest = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&appid=84d61ff029585a95fbd34cf405a10229&units=imperial`;
     console.log(lat, lon);
