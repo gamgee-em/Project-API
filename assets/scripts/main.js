@@ -5,10 +5,14 @@ console.log('js connected');
 let tmApiRequest = 'https://app.ticketmaster.com/discovery/v2/events.json?city=philadelphia&apikey=0PYM69m0qo3ESz77SMGYGdnR0YZKo3oM';
 // open weather API call using the city query
 let owApiRequest = 'https://api.openweathermap.org/geo/1.0/direct?q=philadelphia,pa,us&limit=2&appid=84d61ff029585a95fbd34cf405a10229&units=imperial';
+// search button for on click event
+let searchBtn = $('.button');
 
+let eventObj = [];
 let hourObj = []
 let iconObj = []
-
+// displays current day to match TM date structure Example(2021-04-12)
+let currentDate = moment().format('YYYY-MM-DD');
   // TICKET MASTER API CALL
   const getTmData = async () => {
     const tmResponse = await fetch(tmApiRequest);
@@ -16,7 +20,20 @@ let iconObj = []
     let tmEmbeddedKey = tmData._embedded;
     // events object
     let tmEvents = tmEmbeddedKey.events;
-    console.log(tmEvents)
+    // gets date for event
+    let dates = tmEvents[0].dates.start.localDate;
+    //console.log(tmEvents)
+    console.log(currentDate)
+
+    tmEvents.forEach((date, i) => {
+      if (currentDate == tmEvents[i].dates.start.localDate) {
+        eventObj.push(date)
+        // not working yet
+        $('event-title1').html(tmEvents[i])
+      }
+    });
+    console.log(eventObj)
+
     return tmData;
 }
 
@@ -41,7 +58,7 @@ let iconObj = []
         iconObj.push(icon[i]);
       }
     });
-    console.log(owObj.icon)
+    //console.log(owObj.icon)
 
     for (let i = 0; i < 5; i++) {
       let currentHour = parseInt(moment().format('HH')) + i + 1
@@ -71,9 +88,9 @@ let iconObj = []
     $('#icon2').attr('src', `https://openweathermap.org/img/wn/${owData.hourly[2].weather[0].icon}@2x.png`)
     $('#icon3').attr('src', `https://openweathermap.org/img/wn/${owData.hourly[3].weather[0].icon}@2x.png`)
     $('#icon4').attr('src', `https://openweathermap.org/img/wn/${owData.hourly[4].weather[0].icon}@2x.png`)
-    
-    console.log(hourObj)
-    console.log(owData);
+
+    //console.log(hourObj)
+    //console.log(owData);
     return owData;
 }
 
@@ -85,18 +102,19 @@ function geoLocate() {
   function gotPosition(position) {
     let lat = position.coords.latitude;
     let lon = position.coords.longitude;
+    let latlon= `${position.coords.latitude},${position.coords.longitude}`;
+
     // use obj literal to concat lat & lon to url query
-    tmApiRequest = `https://app.ticketmaster.com/discovery/v2/events.json?latlong=${lat}${lon}&apikey=0PYM69m0qo3ESz77SMGYGdnR0YZKo3oM`;
+    tmApiRequest = `https://app.ticketmaster.com/discovery/v2/events.json?latlong=${latlon}&radius=200&unit=miles&size=200&apikey=0PYM69m0qo3ESz77SMGYGdnR0YZKo3oM`;
     // open weather API call using the city query
     owApiRequest = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&appid=84d61ff029585a95fbd34cf405a10229&units=imperial`;
-
     console.log(lat, lon);
     getTmData();
     getOwData();
   }
 
   function positionFailed(err) {
-
+    console.log('Cannot access current location')
   }
 
   if (navigator.geolocation) {
