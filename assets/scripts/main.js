@@ -25,14 +25,27 @@ let currentDate = moment().format('YYYY-MM-DD');
     //console.log(tmEvents)
     console.log(currentDate)
 
+    searchBtn.on('click', (e) => {
+      // prevent default behavior of searchBtn element <button>
+      // to stop page from refreshing and resetting api parameters
+      e.preventDefault();
+      console.log('Search btn clicked!');
+    
+
     tmEvents.forEach((date, i) => {
       if (currentDate == tmEvents[i].dates.start.localDate) {
         eventObj.push(date)
         // not working yet
-        $('event-title1').html(tmEvents[i])
+        console.log(date)
+
+        $('#event-title1').html(tmEvents[i])
       }
+
+      console.log('loop is being reached')
     });
-    console.log(eventObj)
+
+    });
+    console.log(tmEvents[0].dates.start.localDate)
 
     return tmData;
 }
@@ -65,13 +78,13 @@ let currentDate = moment().format('YYYY-MM-DD');
       $('#hour' + i).html(currentHour)
 
       if(currentHour < 12) {
-        $('#hour' + i).html(currentHour + 'am')
+        $('#hour' + i).html(currentHour + ':00am')
       } else if (currentHour > 12) {
-        $('#hour' + i).html(currentHour - 12 + 'pm')
+        $('#hour' + i).html(currentHour - 12 + ':00pm')
       } else if (currentHour === 12) {
-        $('#hour' + i).html(currentHour + 'pm')
+        $('#hour' + i).html(currentHour + ':00pm')
       } else if (currentHour === 24) {
-        $('#hour' + i).html(currentHour + 'am')
+        $('#hour' + i).html(currentHour + ':00am')
       } 
     };
 
