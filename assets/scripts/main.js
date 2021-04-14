@@ -68,11 +68,11 @@ let currentDate = moment().format('YYYY-MM-DD');
         // checked ticketmaster.com for events happening today &
         // returned 6 results from varying sources
         // look into sources
-        if (currentDate/*  == tmEvents[i].dates.start.localDate */) {
-          eventObj.push(date);
+        if (currentDate == tmEvents[i].dates.start.localDate) {
+          
           console.log('loop is being reached');
         }
-        
+        eventObj.push(date); 
 
          
       });
@@ -112,7 +112,8 @@ let currentDate = moment().format('YYYY-MM-DD');
     for (let i = 0; i < 5; i++) {
       // parse moment.js value into a number for conditional statement.
       let currentHour = parseInt(moment().format('HH')) + i + 1
-
+      $('#current-hour').html("Current")
+      console.log(currentHour);
       if(currentHour < 12) {
         $('#hour' + i).html(currentHour + ':00am')
       } else if (currentHour > 12) {
@@ -174,7 +175,7 @@ function geoLocate() {
     let giveUp = 1000 * 30;
     // 1hr
 
-    let tooOld = 1000 * 10;
+    let tooOld = 100 * 60 * 60;
 
     let options = {
       // drains users battery faster by providing more calls and increased location accuracy
