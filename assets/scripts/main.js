@@ -9,8 +9,8 @@ let owApiRequest = 'https://api.openweathermap.org/geo/1.0/direct?q=philadelphia
 let searchBtn = $('.button');
 
 let eventObj = [];
-let hourObj = [];
-let iconObj = [];
+let hourObj = []
+let iconObj = []
 // displays current day to match TM date structure Example(2021-04-12)
 let currentDate = moment().format('YYYY-MM-DD');
   // TICKET MASTER API CALL
@@ -59,6 +59,7 @@ let currentDate = moment().format('YYYY-MM-DD');
         $(`#distance${i}`).html(`Distance to Venue: ${tmEvents[i].distance} miles`)
 
         // adds link to twitter account
+          console.log(i)
          $(`#tweet${i}`).attr({
           src: tmEvents[0]._embedded.attractions[0].externalLinks.twitter[0].url,
           target: '_blank'
@@ -69,14 +70,12 @@ let currentDate = moment().format('YYYY-MM-DD');
         // returned 6 results from varying sources
         // look into sources
         if (currentDate == tmEvents[i].dates.start.localDate) {
-          
           console.log('loop is being reached');
         }
-        eventObj.push(date); 
+        eventObj.push(date);
 
          
       });
-      console.log(eventObj)
 
     });
     //getting url but link seems to be bad?
@@ -112,8 +111,10 @@ let currentDate = moment().format('YYYY-MM-DD');
     for (let i = 0; i < 5; i++) {
       // parse moment.js value into a number for conditional statement.
       let currentHour = parseInt(moment().format('HH')) + i + 1
-      $('#current-hour').html("Current")
-      console.log(currentHour);
+      // $('#current-hour').html("Current")
+      // console.log(currentHour);
+      $('#hour' + i).html(currentHour)
+
       if(currentHour < 12) {
         $('#hour' + i).html(currentHour + ':00am')
       } else if (currentHour > 12) {
@@ -127,13 +128,15 @@ let currentDate = moment().format('YYYY-MM-DD');
         $('#hour' + i).html((currentHour - 12) + ':00am')
       }
 
-      $('#current-temp').html('Temp: ' + owData.current.temp + '°F')
+      $('#currentTemp').html('Temp: ' + owData.current.temp + '°F')
       $(`temp${i}`).html('Temp: ' + hourObj[i] + '°F')
       $(`temp${i}`).html('Temp: ' + hourObj[i] + '°F')
       $(`temp${i}`).html('Temp: ' + hourObj[i] + '°F')
       $(`temp${i}`).html('Temp: ' + hourObj[i] + '°F')
       $(`temp${i}`).html('Temp: ' + hourObj[i] + '°F')
     };
+
+
     
     $('#currentIcon').attr('src', `https://openweathermap.org/img/wn/${owData.current.weather[0].icon}@2x.png`)
     $('#icon0').attr('src', `https://openweathermap.org/img/wn/${owData.hourly[0].weather[0].icon}@2x.png`)
