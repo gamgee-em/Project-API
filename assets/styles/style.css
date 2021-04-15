@@ -135,7 +135,6 @@
 }
 
 .main-block {
-  margin: 50px;
   padding: 10px;
 }
 
@@ -150,7 +149,12 @@ body {
 
 .custom-card {
   background-color: rgb(252, 202, 168);
-  
+  border-radius: 10px;
+}
+
+.card {
+  margin-bottom: 0;
+  background-color: rgb(233, 233, 233);
 }
 
 .forecastCard {
