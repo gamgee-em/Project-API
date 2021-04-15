@@ -1,200 +1,182 @@
 <!DOCTYPE html>
-<html lang="en">
-
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous"/>
-    <!-- GOOGLE FONTS -->
-    <link rel="preconnect" href="https://fonts.gstatic.com"/>
-    <link href="https://fonts.googleapis.com/css2?family=Recursive&display=swap" rel="stylesheet"/>
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap"rel="stylesheet"/>
-    <!-- GOOGLE ICONS -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
-    <!-- FOUNDATIONS-->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/foundation-sites@6.6.3/dist/css/foundation.min.css">
-    <!-- CSS STYLESHEET -->
-    <link rel="stylesheet" href='./assets/styles/style.css'/>
-    <title>API</title>
-  </head>
-    <!-- BODY -->
-  <body>
-    <nav>
-      <div class="top-bar">
-        <div class="top-bar-left">
-          <ul class="dropdown menu" data-dropdown-menu>
-            <li class="menu-text custom-title"><i class="fa fa-users" aria-hidden="true"></i>  flobi</li>
-          </ul>
-        </div>
-        <div class="top-bar-right">
-          <ul class="menu custom-nav">
-            <li>
-              <a href="#findtext"><i class="fa fa-location-arrow fa-fw fa-sm" aria-hidden="true"></i> Your Location</a>
-            </li>
-            <li>
-              <a href="#weather-block"><i class="fa fa-bolt fa-fw fa-sm" aria-hidden="true"></i> Your Weather</a>
-            </li>
-            <li>
-              <a href="#events-block"><i class="fa fa-calendar fa-fw fa-sm" aria-hidden="true"></i> Your Events</a>
-            </li>
-          </ul>
-        </div>
-      </div>   
-    </nav>
-    <header class="hero-search-filter">
-      <div class="hero-search-filter-content">
-        <img class="hero-search-filter-logo" src="https://placehold.it/160x80" alt="" />
-        <form class="hero-search-filter-form custom-input" action="">
-          <input id="findtext" class="hero-search-filter-form-find" type="text" placeholder="Click here to get your current location"/>
-          <button class="button custom-button"><i class="fa fa-globe"></i></button>
-        </form>
-        <ul class="hero-search-filter-menu menu align-center">
-          <li><a href="#"><i class="fas fa-music" aria-hidden="true"></i> Music</a></li>
-          <li><a href="#"><i class="fas fa-coffee" aria-hidden="true"></i> Resturaunts</a></li>
-          <li><a href="#"><i class="fas fa-running" aria-hidden="true"></i> Physical</a></li>
-          <li><a href="#"><i class="fas fa-ticket-alt" aria-hidden="true"></i> Other Events</a></li>
+<html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+  <!-- GOOGLE FONTS -->
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Recursive&amp;display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans&amp;display=swap" rel="stylesheet">
+  <!-- GOOGLE ICONS -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <!-- FOUNDATIONS-->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/foundation-sites@6.6.3/dist/css/foundation.min.css">
+  <!-- CSS STYLESHEET -->
+  <link rel="stylesheet" href="./assets/styles/style.css">
+  <title>API</title>
+<meta class="foundation-mq"></head>
+  <!-- BODY -->
+<body>
+  <nav>
+    <div class="top-bar">
+      <div class="top-bar-left">
+        <ul class="dropdown menu" data-dropdown-menu="">
+          <li class="menu-text custom-title"><i class="fa fa-users" aria-hidden="true"></i>  flobi</li>
         </ul>
       </div>
-    </header>
-    <main>
-      <section class="grid-y four-up-feature weather-block main-block">
-        <div class="grid-y row four-up-feature-header align-center">
-          <div class="grid-y medium-8 columns">
-            <h4 id='your-city-weather' class="headtext">Today's weather in your area</h2>
-            <h7 class="subtext">Use this information to decide what kind of activity you want to get tickets for</h5>
-          </div>
-          <div class="grid-y">
-            <div class="grid-x align-spaced">
-              <div class="col d-flex align-items-stretch custom-card">
-                <div class="card">
-                  <div class="card-body forecastCard">
-                    <!-- test card -->
-                    <!-- <h5 id='current-hour'>Current</h5>
-                    <img id='currentIcon' src="https://openweathermap.org/img/w/04d.png" alt="fiveDayWeatherIcon">
-                    <p class="lead" id='current-temp'>Temp: --</p> -->
-                    <!-- <p class="lead" id='fHum4'>Precip: --</p> -->
-                    <h5 id='hour0'>3:00 PM</h5>
-                    <img id='fImg4' src="https://openweathermap.org/img/w/04d.png" alt="fiveDayWeatherIcon">
-                    <p class="lead" id='fTemp4'>Temp: 68.14 °F</p>
-                    <p class="lead" id='fHum4'>Precip: 49%</p>
-                  </div>
-                </div>
-              </div>
-              <div class="col d-flex align-items-stretch custom-card">
-                <div class="card">
-                  <div class="card-body forecastCard">
-                    <!-- <h5 id='hour0'>-- PM</h5>
-                    <img id='icon0' src="https://openweathermap.org/img/w/04d.png" alt="fiveDayWeatherIcon">
-                    <p class="lead" id='temp0'>Temp: -- °F</p> -->
-                    <h5 id='fDate4'>4:00 PM</h5>
-                    <img id='fImg4' src="https://openweathermap.org/img/w/04d.png" alt="fiveDayWeatherIcon">
-                    <p class="lead" id='fTemp4'>Temp: 68.14 °F</p>
-                    <p class="lead" id='fHum4'>Precip: 49%</p>
-                  </div>
-                </div>
-              </div>
-              <div class="col d-flex align-items-stretch custom-card">
-                <div class="card">
-                  <div class="card-body forecastCard">
-                    <!-- <h5 id='hour1'>-- PM</h5>
-                    <img id='icon1' src="https://openweathermap.org/img/w/03d.png" alt="fiveDayWeatherIcon">
-                    <p id='temp1' class="lead" >Temp: -- °F</p> -->
-                    <!-- <p id='fHum0' class="lead" >Precip: 46%</p> -->
-                    <h5 id='fDate0'>5:00 PM</h5>
-                    <img id='fImg0' src="https://openweathermap.org/img/w/03d.png" alt="fiveDayWeatherIcon">
-                    <p class="lead" id='fTemp0'>Temp: 69.82 °F</p>
-                    <p class="lead" id='fHum0'>Precip: 46%</p>
-                  </div>
-                </div>
-              </div>
-              <div class="col d-flex align-items-stretch custom-card">
-                <div class="card">
-                  <div class="card-body forecastCard">
-                    <h5 id='hour2'>-- PM</h5>
-                    <img id='icon2' src="https://openweathermap.org/img/w/02d.png" alt="fiveDayWeatherIcon">
-                    <p class="lead" id='temp2'>Temp: -- °F</p>
-                    <!-- <p class="lead" id='fHum1'>Precip: 33%</p> -->
-                  </div>
-                </div>
-              </div>
-              <div class="col d-flex align-items-stretch custom-card">
-                <div class="card">
-                  <div class="card-body forecastCard">
-                    <h5 id='hour3'>-- PM</h5>
-                    <img id='icon3' src="https://openweathermap.org/img/w/03d.png" alt="fiveDayWeatherIcon">
-                    <p class="lead" id='temp3'>Temp: -- °F</p>
-                    <!-- <p class="lead" id='fTHum2'>Precip: 31%</p> -->
-                  </div>
-                </div>
-              </div>
-              <div class="col d-flex align-items-stretch custom-card">
-                <div class="card">
-                  <div class="card-body forecastCard">
-                    <h5 id='hour4'>-- PM</h5>
-                    <img id='icon4' src="https://openweathermap.org/img/w/02d.png" alt="fiveDayWeatherIcon">
-                    <p class="lead" id='temp4'>Temp: -- °F</p>
-                    <!-- <p class="lead" id='fHum3'>Precip: 30%</p> -->
-                  </div>
-                </div>
-              </div>
-              <div class="col d-flex align-items-stretch custom-card">
-                <div class="card">
-                  <div class="card-body forecastCard">
-                    <h5 id='hour5'>-- PM</h5>
-                    <img id='icon5' src="https://openweathermap.org/img/w/04d.png" alt="fiveDayWeatherIcon">
-                    <p class="lead" id='icon5'>Temp: -- °F</p>
-                    <!-- <p class="lead" id='fHum4'>Precip: 49%</p> -->
-                  </div>
+      <div class="top-bar-right">
+        <ul class="menu custom-nav">
+          <li>
+            <a href="#findtext"><i class="fa fa-location-arrow fa-fw fa-sm" aria-hidden="true"></i> Your Location</a>
+          </li>
+          <li>
+            <a href="#weather-block"><i class="fa fa-bolt fa-fw fa-sm" aria-hidden="true"></i> Your Weather</a>
+          </li>
+          <li>
+            <a href="#events-block"><i class="fa fa-calendar fa-fw fa-sm" aria-hidden="true"></i> Your Events</a>
+          </li>
+        </ul>
+      </div>
+    </div>   
+  </nav>
+  <header class="hero-search-filter">
+    <div class="hero-search-filter-content">
+      <img class="hero-search-filter-logo" src="https://placehold.it/160x80" alt="">
+      <form class="hero-search-filter-form custom-input" action="">
+        <input id="findtext" class="hero-search-filter-form-find" type="text" placeholder="Click here to get your current location">
+        <button class="button custom-button"><i class="fa fa-globe"></i></button>
+      </form>
+      <ul class="hero-search-filter-menu menu align-center">
+        <li><a href="#"><i class="fas fa-music" aria-hidden="true"></i> Music</a></li>
+        <li><a href="#"><i class="fas fa-coffee" aria-hidden="true"></i> Resturaunts</a></li>
+        <li><a href="#"><i class="fas fa-running" aria-hidden="true"></i> Physical</a></li>
+        <li><a href="#"><i class="fas fa-ticket-alt" aria-hidden="true"></i> Other Events</a></li>
+      </ul>
+    </div>
+  </header>
+  <main>
+    <section class="grid-y four-up-feature weather-block main-block">
+      <div class="grid-y row four-up-feature-header align-center">
+        <div class="grid-y medium-8 columns">
+          <h4 class="headtext">Today's weather in your area</h4>
+          <h7 class="subtext">Use this information to decide what kind of activity you want to get tickets for
+        </h7></div>
+        <div class="grid-y">
+          <div class="grid-x align-spaced">
+            <div class="col d-flex align-items-stretch custom-card">
+              <div class="card">
+                <div class="card-body forecastCard">
+                  <h5 id="fDate4">3:00 PM</h5>
+                  <img id="fImg4" src="https://openweathermap.org/img/w/04d.png" alt="fiveDayWeatherIcon">
+                  <p class="lead" id="fTemp4">Temp: 68.14 °F</p>
+                  <p class="lead" id="fHum4">Precip: 49%</p>
                 </div>
               </div>
             </div>
+            <div class="col d-flex align-items-stretch custom-card">
+              <div class="card">
+                <div class="card-body forecastCard">
+                  <h5 id="fDate4">4:00 PM</h5>
+                  <img id="fImg4" src="https://openweathermap.org/img/w/04d.png" alt="fiveDayWeatherIcon">
+                  <p class="lead" id="fTemp4">Temp: 68.14 °F</p>
+                  <p class="lead" id="fHum4">Precip: 49%</p>
+                </div>
+              </div>
+            </div>
+            <div class="col d-flex align-items-stretch custom-card">
+              <div class="card">
+                <div class="card-body forecastCard">
+                  <h5 id="fDate0">5:00 PM</h5>
+                  <img id="fImg0" src="https://openweathermap.org/img/w/03d.png" alt="fiveDayWeatherIcon">
+                  <p class="lead" id="fTemp0">Temp: 69.82 °F</p>
+                  <p class="lead" id="fHum0">Precip: 46%</p>
+                </div>
+              </div>
+            </div>
+            <div class="col d-flex align-items-stretch custom-card">
+              <div class="card">
+                <div class="card-body forecastCard">
+                  <h5 id="fDate1">6:00 PM</h5>
+                  <img id="fImg1" src="https://openweathermap.org/img/w/02d.png" alt="fiveDayWeatherIcon">
+                  <p class="lead" id="fTemp1">Temp: 72.1 °F</p>
+                  <p class="lead" id="fHum1">Precip: 33%</p>
+                </div>
+              </div>
+            </div>
+            <div class="col d-flex align-items-stretch custom-card">
+              <div class="card">
+                <div class="card-body forecastCard">
+                  <h5 id="fDate2">7:00 PM</h5>
+                  <img id="fImg2" src="https://openweathermap.org/img/w/03d.png" alt="fiveDayWeatherIcon">
+                  <p class="lead" id="fTemp2">Temp: 71.64 °F</p>
+                  <p class="lead" id="fTHum2">Precip: 31%</p>
+                </div>
+              </div>
+            </div>
+            <div class="col d-flex align-items-stretch custom-card">
+              <div class="card">
+                <div class="card-body forecastCard">
+                  <h5 id="fDate3">8:00 PM</h5>
+                  <img id="fImg3" src="https://openweathermap.org/img/w/02d.png" alt="fiveDayWeatherIcon">
+                  <p class="lead" id="fTemp3">Temp: 72.81 °F</p>
+                  <p class="lead" id="fHum3">Precip: 30%</p>
+                </div>
+              </div>
+            </div>
+            <div class="col d-flex align-items-stretch custom-card">
+              <div class="card">
+                <div class="card-body forecastCard">
+                  <h5 id="fDate4">9:00 PM</h5>
+                  <img id="fImg4" src="https://openweathermap.org/img/w/04d.png" alt="fiveDayWeatherIcon">
+                  <p class="lead" id="fTemp4">Temp: 68.14 °F</p>
+                  <p class="lead" id="fHum4">Precip: 49%</p>
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+    </div></section>
+    <section class="grid-y four-up-feature events-block main-block">
+      <div class="row four-up-feature-header align-center">
+        <div class="medium-8 columns">
+          <h2>Events happening today in your city:</h2>
+          <h5>When you find one you're interested in, follow the link to get tickets via Ticketmaster</h5>
         </div>
-      </section>
-      <section class="grid-y four-up-feature events-block main-block">
-        <div class="row four-up-feature-header align-center">
-          <div class="medium-8 columns">
-            <h2 id='your-city-card'>Events happening today in your city:</h2>
-            <h5>When you find one you're interested in, follow the link to get tickets via Ticketmaster</h5>
-          </div>
+      </div>
+      <div class="grid-x row align-spaced">
+        <div class="small-10 medium-3 columns">
+          <img class="four-up-feature-image" src="https://placehold.it/75" alt="icon">
+          <h4 id="event-title1">Item One</h4>
+          <p class="four-up-feature-text">Bacon ipsum dolor amet biltong short ribs cupim brisket, prosciutto flank t-bone ball tip porchetta sirloin.</p>
         </div>
-
-        <!-- test card -->
-        <div class="grid-x row align-spaced">
-          <div class="small-10 medium-3 columns">
-            <img id='img0' class="four-up-feature-image" src="https://placehold.it/75" alt="icon">
-            <h4 id='title0' >Item One</h4>
-            <a id='url-link0'class="four-up-feature-text">Bacon ipsum dolor amet biltong short ribs cupim brisket, prosciutto flank t-bone ball tip porchetta sirloin.</a>
-            <p id='distance0'></p>
-            <a id='tweet0'></a>
-            
-          </div>
-          <div class="small-10 medium-3 columns">
-            <img class="four-up-feature-image" src="https://placehold.it/75" alt="icon">
-            <h4>Item Two</h4>
-            <p class="four-up-feature-text"> Leberkas jerky kevin doner pork loin ground round landjaeger chicken ham hock brisket bresaola shankle. </p>
-          </div>
-          <div class="small-10 medium-3 columns">
-            <img class="four-up-feature-image" src="https://placehold.it/75" alt="icon">
-            <h4>Item Three</h4>
-            <p class="four-up-feature-text">Alcatra doner pastrami salami. Does your lorem ipsum text long for something a little meatier?</p>
-          </div>
-          <div class="small-10 medium-3 columns">
-            <img class="four-up-feature-image" src="https://placehold.it/75" alt="icon">
-            <h4>Item Four</h4>
-            <p class="four-up-feature-text">Alcatra doner pastrami salami. Does your lorem ipsum text long for something a little meatier?</p>
-          </div>
+        <div class="small-10 medium-3 columns">
+          <img class="four-up-feature-image" src="https://placehold.it/75" alt="icon">
+          <h4>Item Two</h4>
+          <p class="four-up-feature-text"> Leberkas jerky kevin doner pork loin ground round landjaeger chicken ham hock brisket bresaola shankle. </p>
         </div>
-      </section>     
-      
-    </main>
+        <div class="small-10 medium-3 columns">
+          <img class="four-up-feature-image" src="https://placehold.it/75" alt="icon">
+          <h4>Item Three</h4>
+          <p class="four-up-feature-text">Alcatra doner pastrami salami. Does your lorem ipsum text long for something a little meatier?</p>
+        </div>
+        <div class="small-10 medium-3 columns">
+          <img class="four-up-feature-image" src="https://placehold.it/75" alt="icon">
+          <h4>Item Four</h4>
+          <p class="four-up-feature-text">Alcatra doner pastrami salami. Does your lorem ipsum text long for something a little meatier?</p>
+        </div>
+      </div>
+    </section>           
+    
+  </main>
 
-   <!-- SCRIPTS MOMENT.JS / JQUERY / JS -->
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/foundation-sites@6.6.3/dist/js/foundation.min.js"></script>
- 	<script src='./assets/scripts/main.js'></script>
-</body>
+ <!-- SCRIPTS MOMENT.JS / JQUERY / JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/foundation-sites@6.6.3/dist/js/foundation.min.js"></script>
+ <script src="./assets/scripts/main.js"></script>
 
-</html>
 
+
+
+</body></html>
