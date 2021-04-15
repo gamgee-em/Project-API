@@ -92,22 +92,23 @@ let currentDate = moment().format('YYYY-MM-DD');
     };
 
     owObj.hour.forEach((hour, i) => {
-      if (i < 5) {
+      if (i < 6) {
         hourObj.push(hour.temp);
       }
     });
 
     owObj.icon.forEach((icon, i) => {
-      if (i < 5) {
+      if (i < 6) {
         iconObj.push(icon[i]);
       }
     });
     //console.log(owObj.icon)
 
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 6; i++) {
       // parse moment.js value into a number for conditional statement.
       let currentHour = parseInt(moment().format('HH')) + i + 1
       $('#hour' + i).html(currentHour)
+      console.log(currentHour);
 
       if(currentHour < 12) {
         $('#hour' + i).html(currentHour + ':00am')
@@ -129,6 +130,7 @@ let currentDate = moment().format('YYYY-MM-DD');
     $('#temp2').html('Temp: ' + hourObj[2] + '°F')
     $('#temp3').html('Temp: ' + hourObj[3] + '°F')
     $('#temp4').html('Temp: ' + hourObj[4] + '°F')
+    $('#temp5').html('Temp: ' + hourObj[5] + '°F')
     
     $('#currentIcon').attr('src', `https://openweathermap.org/img/wn/${owData.current.weather[0].icon}@2x.png`)
     $('#icon0').attr('src', `https://openweathermap.org/img/wn/${owData.hourly[0].weather[0].icon}@2x.png`)
@@ -136,6 +138,8 @@ let currentDate = moment().format('YYYY-MM-DD');
     $('#icon2').attr('src', `https://openweathermap.org/img/wn/${owData.hourly[2].weather[0].icon}@2x.png`)
     $('#icon3').attr('src', `https://openweathermap.org/img/wn/${owData.hourly[3].weather[0].icon}@2x.png`)
     $('#icon4').attr('src', `https://openweathermap.org/img/wn/${owData.hourly[4].weather[0].icon}@2x.png`)
+    $('#icon5').attr('src', `https://openweathermap.org/img/wn/${owData.hourly[5].weather[0].icon}@2x.png`)
+
 
     //console.log(hourObj)
     //console.log(owData);
