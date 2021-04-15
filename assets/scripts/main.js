@@ -2,15 +2,15 @@ console.log('js connected');
 
 // ticketmaster API using the city query
 
-let tmApiRequest = 'https://app.ticketmaster.com/discovery/v2/events.json?city=philadelphia&source=ticketmaster,universe,frontgate,ticketsnow,tmr&radius=200&unit=miles&size=200&apikey=0PYM69m0qo3ESz77SMGYGdnR0YZKo3oM';
+let tmApiRequest = 'https://app.ticketmaster.com/discovery/v2/events.json?city=philadelphia&apikey=0PYM69m0qo3ESz77SMGYGdnR0YZKo3oM';
 // open weather API call using the city query
 let owApiRequest = 'https://api.openweathermap.org/geo/1.0/direct?q=philadelphia,pa,us&limit=2&appid=84d61ff029585a95fbd34cf405a10229&units=imperial';
 // search button for on click event
 let searchBtn = $('.button');
 
 let eventObj = [];
-let hourObj = [];
-let iconObj = [];
+let hourObj = []
+let iconObj = []
 // displays current day to match TM date structure Example(2021-04-12)
 let currentDate = moment().format('YYYY-MM-DD');
   // TICKET MASTER API CALL
@@ -38,7 +38,7 @@ let currentDate = moment().format('YYYY-MM-DD');
         $(`#title${i}`).html(tmEvents[i].name)
         // updates event image in card
         $(`#img${i}`).attr({
-          src: tmEvents[i].images[0].url
+          src: tmEvents[i].images[i].url
         });
         
         // updates link url in card
@@ -60,7 +60,7 @@ let currentDate = moment().format('YYYY-MM-DD');
 
         // adds link to twitter account
          $(`#tweet${i}`).attr({
-          src: tmEvents[0]._embedded.attractions[0].externalLinks.twitter[0].url,
+          href: tmEvents[i]._embedded.attractions[0].externalLinks.twitter[0].url,
           target: '_blank'
         }).html('Click for latest Tweet!'); 
 
@@ -68,18 +68,13 @@ let currentDate = moment().format('YYYY-MM-DD');
         // checked ticketmaster.com for events happening today &
         // returned 6 results from varying sources
         // look into sources
-        if (currentDate/*  == tmEvents[i].dates.start.localDate */) {
-          eventObj.push(date);
-          console.log('loop is being reached');
+        if (currentDate == tmEvents[i].dates.start.localDate) {
+          eventObj.push(date)
         }
-        
-
-         
+        console.log('loop is being reached')
       });
-      console.log(eventObj)
 
     });
-    //getting url but link seems to be bad?
     console.log(tmEvents[0].url)
     console.log(tmEvents[0]._embedded.attractions[0].externalLinks.twitter[0].url)
 
@@ -112,6 +107,7 @@ let currentDate = moment().format('YYYY-MM-DD');
     for (let i = 0; i < 5; i++) {
       // parse moment.js value into a number for conditional statement.
       let currentHour = parseInt(moment().format('HH')) + i + 1
+      $('#hour' + i).html(currentHour)
 
       if(currentHour < 12) {
         $('#hour' + i).html(currentHour + ':00am')
@@ -125,14 +121,14 @@ let currentDate = moment().format('YYYY-MM-DD');
       } else if (currentHour > 24) {
         $('#hour' + i).html((currentHour - 12) + ':00am')
       }
-
-      $('#current-temp').html('Temp: ' + owData.current.temp + '°F')
-      $(`temp${i}`).html('Temp: ' + hourObj[i] + '°F')
-      $(`temp${i}`).html('Temp: ' + hourObj[i] + '°F')
-      $(`temp${i}`).html('Temp: ' + hourObj[i] + '°F')
-      $(`temp${i}`).html('Temp: ' + hourObj[i] + '°F')
-      $(`temp${i}`).html('Temp: ' + hourObj[i] + '°F')
     };
+
+    $('#currentTemp').html('Temp: ' + owData.current.temp + '°F')
+    $('#temp0').html('Temp: ' + hourObj[0] + '°F')
+    $('#temp1').html('Temp: ' + hourObj[1] + '°F')
+    $('#temp2').html('Temp: ' + hourObj[2] + '°F')
+    $('#temp3').html('Temp: ' + hourObj[3] + '°F')
+    $('#temp4').html('Temp: ' + hourObj[4] + '°F')
     
     $('#currentIcon').attr('src', `https://openweathermap.org/img/wn/${owData.current.weather[0].icon}@2x.png`)
     $('#icon0').attr('src', `https://openweathermap.org/img/wn/${owData.hourly[0].weather[0].icon}@2x.png`)
@@ -157,7 +153,7 @@ function geoLocate() {
     let latlon= `${position.coords.latitude},${position.coords.longitude}`;
 
     // use obj literal to concat lat & lon to url query
-    tmApiRequest = `https://app.ticketmaster.com/discovery/v2/events.json?latlong=${latlon}&source=ticketmaster,universe,frontgate,ticketsnow,tmr&radius=200&unit=miles&size=200&apikey=0PYM69m0qo3ESz77SMGYGdnR0YZKo3oM`;
+    tmApiRequest = `https://app.ticketmaster.com/discovery/v2/events.json?latlong=${latlon}&source=ticketmaster,universe,frontgate,tmr&radius=200&unit=miles&size=200&apikey=0PYM69m0qo3ESz77SMGYGdnR0YZKo3oM`;
     // open weather API call using the city query
     owApiRequest = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&appid=84d61ff029585a95fbd34cf405a10229&units=imperial`;
     console.log(lat, lon);
@@ -174,7 +170,7 @@ function geoLocate() {
     let giveUp = 1000 * 30;
     // 1hr
 
-    let tooOld = 1000 * 10;
+    let tooOld = 100 * 60 * 60;
 
     let options = {
       // drains users battery faster by providing more calls and increased location accuracy
