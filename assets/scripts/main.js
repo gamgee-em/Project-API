@@ -104,7 +104,7 @@ let currentDate = moment().format('YYYY-MM-DD');
     });
     //console.log(owObj.icon)
 
-    for (let i = 0; i < 6; i++) {
+    for (let i = 0; i < 7; i++) {
       // parse moment.js value into a number for conditional statement.
       let currentHour = parseInt(moment().format('HH')) + i + 1
       $('#hour' + i).html(currentHour)
@@ -112,15 +112,15 @@ let currentDate = moment().format('YYYY-MM-DD');
 
       if(currentHour < 12) {
         $('#hour' + i).html(currentHour + ':00am')
-      } else if (currentHour > 12) {
+      } else if (currentHour > 12 && currentHour < 24) {
         $('#hour' + i).html(currentHour - 12 + ':00pm')
       } else if (currentHour === 12) {
         $('#hour' + i).html(currentHour + ':00pm')
       } else if (currentHour === 24) {
-        $('#hour' + i).html(currentHour + ':00am')
+        $('#hour' + i).html((currentHour - 12) + ':00am')
         // this should fix our  issue
       } else if (currentHour > 24) {
-        $('#hour' + i).html((currentHour - 12) + ':00am')
+        $('#hour' + i).html((currentHour - 24) + ':00am')
       }
     };
 
