@@ -1,153 +1,146 @@
 console.log('js connected');
 
 // ticketmaster API using the city query
-
 let tmApiRequest = 'https://app.ticketmaster.com/discovery/v2/events.json?city=philadelphia&apikey=0PYM69m0qo3ESz77SMGYGdnR0YZKo3oM';
 // open weather API call using the city query
 let owApiRequest = 'https://api.openweathermap.org/geo/1.0/direct?q=philadelphia,pa,us&limit=2&appid=84d61ff029585a95fbd34cf405a10229&units=imperial';
 // search button for on click event
-let searchBtn = $('.button');
-
+let searchBtn = $('.custom-button');
+let geoBtn = $('#geo-btn');
 let eventObj = [];
 let hourObj = []
 let iconObj = []
+let tmEvents = [];
+let owObj = [];
+
 // displays current day to match TM date structure Example(2021-04-12)
 let currentDate = moment().format('YYYY-MM-DD');
-  // TICKET MASTER API CALL
-  const getTmData = async () => {
-    const tmResponse = await fetch(tmApiRequest);
-    const tmData = await tmResponse.json();
-    let tmEmbeddedKey = tmData._embedded;
-    // events object
-    let tmEvents = tmEmbeddedKey.events;
-    // gets date for event
-    let dates = tmEvents[0].dates.start.localDate;
-    
-    //console.log(tmEvents)
-    console.log(currentDate)
+  
+// TICKET MASTER API CALL
+const getTmData = async () => {
+  const tmResponse = await fetch(tmApiRequest);
+  const tmData = await tmResponse.json();
+  let tmEmbeddedKey = tmData._embedded;
+  // events object
+  tmEvents = tmEmbeddedKey.events;
+  // gets date for event
+  let dates = tmEvents[0].dates.start.localDate;
+  
+  //console.log(tmEvents)
+  console.log(currentDate)
+  console.log(tmEvents[0].url)
+  console.log(tmEvents[0]._embedded.attractions[0].externalLinks.twitter[0].url)
 
-    searchBtn.on('click', (e) => {
-      // prevent default behavior of searchBtn element <button>
-      // to stop page from refreshing and resetting api parameters
-      e.preventDefault();
-      console.log('Search btn clicked!');
-    
-
-      tmEvents.forEach((date, i) => {
-        // updates event title in card
-        $(`#title${i}`).html(tmEvents[i].name)
-        // updates event image in card
-        $(`#img${i}`).attr({
-          src: tmEvents[i].images[i].url
-        });
-        
-        // updates link url in card
-        $(`#url-link${i}`).attr({
-          // changes html tag href to event page url
-          href: tmEvents[i].url,
-          // opens link in new tab
-          target: '_blank'
-        }).html('Click for Ticket Sales');
-        
-        // updates weather h4 html text to users city
-        $('#your-city-weather').html(`Today's weather in ${tmEvents[0]._embedded.venues[0].city.name}`);
-        
-        // updates event card h4 html text to users city
-        // might want to leave this text as 'Events happening in your area today'
-        $('#your-city-card').html(`Events happening in ${tmEvents[0]._embedded.venues[0].city.name} today!`);
-        // updates event card p html text to event distance from you
-        $(`#distance${i}`).html(`Distance to Venue: ${tmEvents[i].distance} miles`)
-
-        // adds link to twitter account
-         $(`#tweet${i}`).attr({
-          href: tmEvents[i]._embedded.attractions[0].externalLinks.twitter[0].url,
-          target: '_blank'
-        }).html('Click for latest Tweet!'); 
-
-        // condition not executing although valid
-        // checked ticketmaster.com for events happening today &
-        // returned 6 results from varying sources
-        // look into sources
-        if (currentDate == tmEvents[i].dates.start.localDate) {
-          eventObj.push(date)
-        }
-        console.log('loop is being reached')
-      });
-
-    });
-    console.log(tmEvents[0].url)
-    console.log(tmEvents[0]._embedded.attractions[0].externalLinks.twitter[0].url)
-
-    return tmData;
+  return tmData;
 }
 
   // OPEN WEATHER API CALL
-  const getOwData = async () => {
-    const owResponse = await fetch(owApiRequest);
-    const owData = await owResponse.json();
-    
-    let owObj = {
-      hour: owData.hourly,
-      icon: owData.current.weather
-    };
+const getOwData = async () => {
+  const owResponse = await fetch(owApiRequest);
+  const owData = await owResponse.json();
+  
+  owObj = {
+    hour: owData.hourly,
+    icon: owData.current.weather
+  };
+  return owData;
+};
 
-    owObj.hour.forEach((hour, i) => {
-      if (i < 6) {
-        hourObj.push(hour.temp);
+// renderHtml to browswer
+function renderHtml() {
+    tmEvents.forEach((date, i) => {
+      // updates event title in card
+      $(`#title${i}`).html(tmEvents[i].name)
+      // updates event image in card
+      $(`#img${i}`).attr({
+        src: tmEvents[i].images[i].url
+      });
+      
+      // updates link url in card
+      $(`#url-link${i}`).attr({
+        // changes html tag href to event page url
+        href: tmEvents[i].url,
+        // opens link in new tab
+        target: '_blank'
+      }).html('Click for Ticket Sales');
+      
+      // updates weather h4 html text to users city
+      $('#your-city-weather').html(`Today's weather in ${tmEvents[0]._embedded.venues[0].city.name}`);
+      
+      // updates event card h4 html text to users city
+      // might want to leave this text as 'Events happening in your area today'
+      $('#your-city-card').html(`Events happening in ${tmEvents[0]._embedded.venues[0].city.name} today!`);
+      // updates event card p html text to event distance from you
+      $(`#distance${i}`).html(`Distance to Venue: ${tmEvents[i].distance} miles`)
+
+      // adds link to twitter account
+      $(`#tweet${i}`).attr({
+        href: tmEvents[i]._embedded.attractions[0].externalLinks.twitter[0].url,
+        target: '_blank'
+      }).html('Click for latest Tweet!'); 
+
+      // condition not executing although valid
+      // checked ticketmaster.com for events happening today &
+      // returned 6 results from varying sources
+      // look into sources
+      if (currentDate == tmEvents[i].dates.start.localDate) {
+        eventObj.push(date)
+        console.log('loop is being reached')
       }
-    });
+      
+      owObj.hour.forEach((hour, i) => {
+        if (i < 6) {
+          hourObj.push(hour.temp);
+        }
+      });
 
-    owObj.icon.forEach((icon, i) => {
-      if (i < 6) {
-        iconObj.push(icon[i]);
-      }
-    });
-    //console.log(owObj.icon)
+      owObj.icon.forEach((icon, i) => {
+        if (i < 6) {
+          iconObj.push(icon[i]);
+        }
+      });
+      //console.log(owObj.icon)
 
-    for (let i = 0; i < 7; i++) {
-      // parse moment.js value into a number for conditional statement.
-      let currentHour = parseInt(moment().format('HH')) + i + 1
-      $('#hour' + i).html(currentHour)
-      console.log(currentHour);
+      for (let i = 0; i < 7; i++) {
+        // parse moment.js value into a number for conditional statement.
+        let currentHour = parseInt(moment().format('HH')) + i + 1
+        $('#hour' + i).html(currentHour)
+        console.log(currentHour);
 
-      if(currentHour < 12) {
-        $('#hour' + i).html(currentHour + ':00am')
-      } else if (currentHour > 12 && currentHour < 24) {
-        $('#hour' + i).html(currentHour - 12 + ':00pm')
-      } else if (currentHour === 12) {
-        $('#hour' + i).html(currentHour + ':00pm')
-      } else if (currentHour === 24) {
-        $('#hour' + i).html((currentHour - 12) + ':00am')
-        // this should fix our  issue
-      } else if (currentHour > 24) {
-        $('#hour' + i).html((currentHour - 24) + ':00am')
-      }
-    };
+        if(currentHour < 12) {
+          $('#hour' + i).html(currentHour + ':00am')
+        } else if (currentHour > 12 && currentHour < 24) {
+          $('#hour' + i).html(currentHour - 12 + ':00pm')
+        } else if (currentHour === 12) {
+          $('#hour' + i).html(currentHour + ':00pm')
+        } else if (currentHour === 24) {
+          $('#hour' + i).html((currentHour - 12) + ':00am')
+          // this should fix our  issue
+        } else if (currentHour > 24) {
+          $('#hour' + i).html((currentHour - 24) + ':00am')
+        }
+      };
 
-    $('#currentTemp').html('Temp: ' + owData.current.temp + '°F')
-    $('#temp0').html('Temp: ' + hourObj[0] + '°F')
-    $('#temp1').html('Temp: ' + hourObj[1] + '°F')
-    $('#temp2').html('Temp: ' + hourObj[2] + '°F')
-    $('#temp3').html('Temp: ' + hourObj[3] + '°F')
-    $('#temp4').html('Temp: ' + hourObj[4] + '°F')
-    $('#temp5').html('Temp: ' + hourObj[5] + '°F')
-    
-    $('#currentIcon').attr('src', `https://openweathermap.org/img/wn/${owData.current.weather[0].icon}@2x.png`)
-    $('#icon0').attr('src', `https://openweathermap.org/img/wn/${owData.hourly[0].weather[0].icon}@2x.png`)
-    $('#icon1').attr('src', `https://openweathermap.org/img/wn/${owData.hourly[1].weather[0].icon}@2x.png`)
-    $('#icon2').attr('src', `https://openweathermap.org/img/wn/${owData.hourly[2].weather[0].icon}@2x.png`)
-    $('#icon3').attr('src', `https://openweathermap.org/img/wn/${owData.hourly[3].weather[0].icon}@2x.png`)
-    $('#icon4').attr('src', `https://openweathermap.org/img/wn/${owData.hourly[4].weather[0].icon}@2x.png`)
-    $('#icon5').attr('src', `https://openweathermap.org/img/wn/${owData.hourly[5].weather[0].icon}@2x.png`)
-
-
-    //console.log(hourObj)
-    //console.log(owData);
-    return owData;
-}
-
-// call functions to get data from url querys
-
+      // move into for loop once click events are firing correctly
+      $('#currentTemp').html('Temp: ' + owData.current.temp + '°F')
+      $('#temp0').html('Temp: ' + hourObj[0] + '°F')
+      $('#temp1').html('Temp: ' + hourObj[1] + '°F')
+      $('#temp2').html('Temp: ' + hourObj[2] + '°F')
+      $('#temp3').html('Temp: ' + hourObj[3] + '°F')
+      $('#temp4').html('Temp: ' + hourObj[4] + '°F')
+      $('#temp5').html('Temp: ' + hourObj[5] + '°F')
+      
+      $('#currentIcon').attr('src', `https://openweathermap.org/img/wn/${owData.current.weather[0].icon}@2x.png`)
+      $('#icon0').attr('src', `https://openweathermap.org/img/wn/${owData.hourly[0].weather[0].icon}@2x.png`)
+      $('#icon1').attr('src', `https://openweathermap.org/img/wn/${owData.hourly[1].weather[0].icon}@2x.png`)
+      $('#icon2').attr('src', `https://openweathermap.org/img/wn/${owData.hourly[2].weather[0].icon}@2x.png`)
+      $('#icon3').attr('src', `https://openweathermap.org/img/wn/${owData.hourly[3].weather[0].icon}@2x.png`)
+      $('#icon4').attr('src', `https://openweathermap.org/img/wn/${owData.hourly[4].weather[0].icon}@2x.png`)
+      $('#icon5').attr('src', `https://openweathermap.org/img/wn/${owData.hourly[5].weather[0].icon}@2x.png`)
+  });
+   
+ };
+ renderHtml();
 
 function geoLocate() {
   // check if browswer supports navigator method
@@ -188,7 +181,21 @@ function geoLocate() {
   } else {
     console.log('user is on an unsupported browser')
   }
-
 }
+// searchBtn on click event
+searchBtn.on('click', (e) => {
+  // prevent default behavior of searchBtn element <button>
+  // to stop page from refreshing and resetting api parameters
+  e.preventDefault();
+  renderHtml();
+  geoLocate();
+  console.log('Search btn clicked!');
+});
 
-geoLocate();
+// geoBtn click event
+geoBtn.on('click', (e) => {
+  e.preventDefault();
+  geoLocate();
+  renderHtml();
+  console.log('geoBtn clicked!')
+});
