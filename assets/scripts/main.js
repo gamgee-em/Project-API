@@ -18,6 +18,7 @@ let tmEvents = [];
 let tmEmbeddedKey = [];
 let tmData = [];
 let owData = [];
+let owCityData;
 let owDataObj = [];
 let citySearch;
 let displayCity; 
@@ -40,7 +41,6 @@ const getTmData = async () => {
   // gets date for event
   let dates = tmEvents[0].dates.start.localDate;
   console.log(tmEvents)
-  console.log(citySearch)
   renderHtml();
   return tmData;
 }
@@ -128,19 +128,6 @@ function renderHtml() {
         eventObj.push(date)
         console.log('loop is being reached')
       }
-      /* console.log(owData.hourly.temp)
-       owDataObj.hour.forEach((hour, i) => {
-         if (i < 7) {
-          hourObj.push(hour.temp[i]);
-        }
-      }); */
-
-      /* owDataObj.icon.forEach((icon, i) => {
-        if (i < 6) {
-          iconObj.push(icon[i]);
-        }
-      }); */
-      //console.log(owObj.icon)
 
       for (let i = 0; i < 7; i++) {
         // parse moment.js value into a number for conditional statement.
@@ -159,35 +146,17 @@ function renderHtml() {
           $('#hour' + i).html((currentHour - 24) + ':00am')
         }
 
-        $('#icon'+ i).attr('src', `https://openweathermap.org/img/wn/${owData.hourly[i].weather[0].icon}@2x.png`)
+        $('#icon'+ i).attr('src', 'https://openweathermap.org/img/wn/' + owData.hourly[i].weather[0].icon + '@2x.png')
         $('#temp' + i).html('Temp: ' + owData.hourly[i].temp + '°F')
         $('#hum' + i).html('Humidity: ' + owData.hourly[i].humidity + '%');
 
       };
-
       $('#currentTemp').html('Temp: ' + owData.current.temp)
       $('#currentIcon').attr('src', `https://openweathermap.org/img/wn/${owData.current.weather[0].icon}@2x.png`)
       $('#currentHum').html('Humidity: ' + owData.current.humidity + '%');
-
-      // move into for loop once click events are firing correctly
-      //$('#currentTemp').html('Temp: ' + owData.current.temp + '°F')
-      /* $('#temp0').html('Temp: ' + owData.hourly[0].temp + '°F')
-      $('#temp1').html('Temp: ' + owData.hourly[1].temp + '°F')
-      $('#temp2').html('Temp: ' + hourObj[2] + '°F')
-      $('#temp3').html('Temp: ' + hourObj[3] + '°F')
-      $('#temp4').html('Temp: ' + hourObj[4] + '°F')
-      $('#temp5').html('Temp: ' + hourObj[5] + '°F') */
-      
-      /* $('#currentIcon').attr('src', `https://openweathermap.org/img/wn/${owData.current.weather[0].icon}@2x.png`)
-      $('#icon0').attr('src', `https://openweathermap.org/img/wn/${owData.hourly[0].weather[0].icon}@2x.png`)
-      $('#icon1').attr('src', `https://openweathermap.org/img/wn/${owData.hourly[1].weather[0].icon}@2x.png`)
-      $('#icon2').attr('src', `https://openweathermap.org/img/wn/${owData.hourly[2].weather[0].icon}@2x.png`)
-      $('#icon3').attr('src', `https://openweathermap.org/img/wn/${owData.hourly[3].weather[0].icon}@2x.png`)
-      $('#icon4').attr('src', `https://openweathermap.org/img/wn/${owData.hourly[4].weather[0].icon}@2x.png`)
-      $('#icon5').attr('src', `https://openweathermap.org/img/wn/${owData.hourly[5].weather[0].icon}@2x.png`) */
   });
    
- };
+};
 
 function geoLocate() {
   console.log('getLocate being reached')
@@ -255,24 +224,26 @@ searchBtn.on('click', (e) => {
   //geoLocate();
   getTmData();
   getOwData();
-  renderHtml();
 });
 
 // geoBtn click event
 geoBtn.on('click', (e) => {
   console.log('geoBtn being reached')
+
   e.preventDefault();
-  
   // value needs to populate from tmAPI vender i think 
-  citySearch = 'philadelphia';
+  // cannot access value from inside the geoBtn click event
+  // citySearch = owCityData.name;
+
+  // place holder until I figure out how to access the data above
+  citySearch = 'Philadelphia';
 
   //displayCity = $(citySearch).val(localStorage.getItem('location'));
   displayCity = `${citySearch[0].toUpperCase()}${citySearch.slice(1)}`;
-
+  
+  getOwData();
   geoLocate();
   getTmData();
-  getOwData();
-  renderHtml();
 });
 
 console.log('end of code being reached');
