@@ -9,7 +9,6 @@ let searchBtn = $('.custom-button');
 let geoBtn = $('#geo-btn');
 
 let citySearch = $('#findtext').val;
-console.log(citySearch);
 
 let eventObj = [];
 let hourObj = [];
@@ -45,6 +44,7 @@ const getOwData = async () => {
     hour: owData.hourly,
     icon: owData.current.weather
   };
+  console.log(owData);
   renderHtml();
 
   return owData;
@@ -124,16 +124,19 @@ function renderHtml() {
         } else if (currentHour > 24) {
           $('#hour' + i).html((currentHour - 24) + ':00am')
         }
+
+        $('#temp' + i).html('Temp: ' + hourObj[i] + '°F')
+
       };
 
       // move into for loop once click events are firing correctly
-      $('#currentTemp').html('Temp: ' + owData.current.temp + '°F')
+      /* $('#currentTemp').html('Temp: ' + owData.current.temp + '°F')
       $('#temp0').html('Temp: ' + hourObj[0] + '°F')
       $('#temp1').html('Temp: ' + hourObj[1] + '°F')
       $('#temp2').html('Temp: ' + hourObj[2] + '°F')
       $('#temp3').html('Temp: ' + hourObj[3] + '°F')
       $('#temp4').html('Temp: ' + hourObj[4] + '°F')
-      $('#temp5').html('Temp: ' + hourObj[5] + '°F')
+      $('#temp5').html('Temp: ' + hourObj[5] + '°F') */
       
       $('#currentIcon').attr('src', `https://openweathermap.org/img/wn/${owData.current.weather[0].icon}@2x.png`)
       $('#icon0').attr('src', `https://openweathermap.org/img/wn/${owData.hourly[0].weather[0].icon}@2x.png`)
