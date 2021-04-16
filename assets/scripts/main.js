@@ -1,9 +1,11 @@
 console.log('js connected');
 
 // ticketmaster API using the city query
-let tmApiRequest = 'https://app.ticketmaster.com/discovery/v2/events.json?city=philadelphia&apikey=0PYM69m0qo3ESz77SMGYGdnR0YZKo3oM';
+//let tmApiRequest = 'https://app.ticketmaster.com/discovery/v2/events.json?city=philadelphia&apikey=0PYM69m0qo3ESz77SMGYGdnR0YZKo3oM';
 // open weather API call using the city query
-let owApiRequest = 'https://api.openweathermap.org/geo/1.0/direct?q=philadelphia,pa,us&limit=2&appid=84d61ff029585a95fbd34cf405a10229&units=imperial';
+let owApiRequest; //= 'https://api.openweathermap.org/geo/1.0/direct?q=philadelphia,pa,us&limit=2&appid=84d61ff029585a95fbd34cf405a10229&units=imperial';
+let owCityRequest;
+let tmApiRequest;
 // search button for on click event
 let searchBtn = $('.custom-button');
 let geoBtn = $('#geo-btn');
@@ -13,18 +15,23 @@ let eventObj = [];
 let hourObj = [];
 let iconObj = [];
 let tmEvents = [];
-let owObj = [];
 let tmEmbeddedKey = [];
-let owData = [];
 let tmData = [];
+let owData = [];
+let owDataObj = [];
 let citySearch;
-let locationSearch;
 let displayCity; 
 // displays current day to match TM date structure Example(2021-04-12)
 let currentDate = moment().format('YYYY-MM-DD');
 
 // TICKET MASTER API CALL
 const getTmData = async () => {
+  console.log('getTmData being reached')
+
+  tmApiRequest = `https://app.ticketmaster.com/discovery/v2/events.json?city=${citySearch}&apikey=0PYM69m0qo3ESz77SMGYGdnR0YZKo3oM`;
+  //let owApiRequest = 'https://api.openweathermap.org/geo/1.0/direct?q=philadelphia,pa,us&limit=2&appid=84d61ff029585a95fbd34cf405a10229&units=imperial';
+  // make api call with user input to get lat & lon
+  // then make another api call and pass in lat & lon
   const tmResponse = await fetch(tmApiRequest);
   tmData = await tmResponse.json();
   tmEmbeddedKey = tmData._embedded;
@@ -33,18 +40,42 @@ const getTmData = async () => {
   // gets date for event
   let dates = tmEvents[0].dates.start.localDate;
   console.log(tmEvents)
+  console.log(citySearch)
   renderHtml();
   return tmData;
 }
 
   // OPEN WEATHER API CALL
 const getOwData = async () => {
+  console.log('getOwData being reached')
+  console.log(citySearch)
+  owCityRequest = `https://api.openweathermap.org/data/2.5/weather?q=${citySearch}&appid=84d61ff029585a95fbd34cf405a10229`;
+
+  // this calls the api w/ the users input to get the lat and lon for the owApiRequest url query
+  const owCityResponse = await fetch(owCityRequest);
+  owCityData = await owCityResponse.json();
+  
+  owCityObj = {
+    lat:owCityData.coord.lat,
+    lon:owCityData.coord.lon
+  };
+
+  console.log(owCityObj.lat, owCityObj.lon);
+
+  owApiRequest = `https://api.openweathermap.org/data/2.5/onecall?lat=${owCityObj.lat}&lon=${owCityObj.lon}&exclude=daily&appid=84d61ff029585a95fbd34cf405a10229&units=imperial`;
   const owResponse = await fetch(owApiRequest);
   owData = await owResponse.json();
-  owObj = {
+
+  owDataObj = {
     hour: owData.hourly,
-    icon: owData.current.weather
+    icon: owData.current.weather,
+    //lat: owData.lat,
+    //lon: owData.lon
   };
+
+  console.log(owData);
+  console.log(owDataObj.hour[0]);
+
   renderHtml();
 
   return owData;
@@ -52,6 +83,7 @@ const getOwData = async () => {
 
 // renderHtml to browswer
 function renderHtml() {
+  console.log('renderHTML being reached')
 
   // remove class from main-block to show content
   $('.main-block').removeClass('hide');
@@ -98,13 +130,13 @@ function renderHtml() {
         console.log('loop is being reached')
       }
       
-      owObj.hour.forEach((hour, i) => {
+      owDataObj.hour.forEach((hour, i) => {
         if (i < 6) {
-          hourObj.push(hour.temp);
+          hourObj.push(hour.temp[i]);
         }
       });
 
-      owObj.icon.forEach((icon, i) => {
+      owDataObj.icon.forEach((icon, i) => {
         if (i < 6) {
           iconObj.push(icon[i]);
         }
@@ -151,11 +183,13 @@ function renderHtml() {
  };
 
 function geoLocate() {
+  console.log('getLocate being reached')
+
   // check if browswer supports navigator method
   function gotPosition(position) {
     let lat = position.coords.latitude;
     let lon = position.coords.longitude;
-    let latlon= `${position.coords.latitude},${position.coords.longitude}`;
+    let latlon=`${position.coords.latitude},${position.coords.longitude}`;
 
     // use obj literal to concat lat & lon to url query
     tmApiRequest = `https://app.ticketmaster.com/discovery/v2/events.json?latlong=${latlon}&source=ticketmaster,universe,frontgate,tmr&radius=200&unit=miles&size=200&apikey=0PYM69m0qo3ESz77SMGYGdnR0YZKo3oM`;
@@ -193,6 +227,8 @@ function geoLocate() {
 
 // searchBtn on click event
 searchBtn.on('click', (e) => {
+  console.log('searchBtn being reached')
+
   // prevent default behavior of searchBtn element <button>
   // to stop page from refreshing and resetting api parameters
   e.preventDefault();
@@ -200,29 +236,36 @@ searchBtn.on('click', (e) => {
 //
   displayCity = $(citySearch).val(localStorage.getItem('location'));
   displayCity = `${citySearch[0].toUpperCase()}${citySearch.slice(1)}`;
+
   let localStor = $('#findtext').val();
   localStorage.setItem('city', localStor);
-  console.log(localStor);
-  console.log(Storage.length)
-  console.log(localStorage)
-  console.log(localStorage.getItem('city'));
+  //console.log(localStor);
+  //console.log(Storage.length)
+  //console.log(localStorage)
+  //console.log(localStorage.getItem('city'));
 
   // need to change this to grab input value and make api call
-  geoLocate();
+  //geoLocate();
+  getTmData();
+  getOwData();
   renderHtml();
-  console.log('Search btn clicked!');
 });
 
 // geoBtn click event
 geoBtn.on('click', (e) => {
+  console.log('geoBtn being reached')
   e.preventDefault();
   
-  citySearch = $('#findtext').val().toLowerCase().trim();
+  // value needs to populate from tmAPI vender i think 
+  citySearch = 'philadelphia';
 
-  displayCity = $(citySearch).val(localStorage.getItem('location'));
+  //displayCity = $(citySearch).val(localStorage.getItem('location'));
   displayCity = `${citySearch[0].toUpperCase()}${citySearch.slice(1)}`;
 
   geoLocate();
+  getTmData();
+  getOwData();
   renderHtml();
-  console.log('geoBtn clicked!')
 });
+
+console.log('end of code being reached');
