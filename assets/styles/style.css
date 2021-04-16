@@ -189,3 +189,7 @@ body {
   color:  rgb(201, 108, 21);
   padding-bottom: 40px;
 }
+
+.hide {
+  display: none;
+}
