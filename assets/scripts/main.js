@@ -7,42 +7,46 @@ let owApiRequest = 'https://api.openweathermap.org/geo/1.0/direct?q=philadelphia
 // search button for on click event
 let searchBtn = $('.custom-button');
 let geoBtn = $('#geo-btn');
+
+let citySearch = $('#findtext').val;
+console.log(citySearch);
+
 let eventObj = [];
-let hourObj = []
-let iconObj = []
+let hourObj = [];
+let iconObj = [];
 let tmEvents = [];
 let owObj = [];
-
+let tmEmbeddedKey = [];
+let owData = [];
+let tmData = [];
 // displays current day to match TM date structure Example(2021-04-12)
 let currentDate = moment().format('YYYY-MM-DD');
   
 // TICKET MASTER API CALL
 const getTmData = async () => {
   const tmResponse = await fetch(tmApiRequest);
-  const tmData = await tmResponse.json();
-  let tmEmbeddedKey = tmData._embedded;
+  tmData = await tmResponse.json();
+  tmEmbeddedKey = tmData._embedded;
   // events object
   tmEvents = tmEmbeddedKey.events;
   // gets date for event
   let dates = tmEvents[0].dates.start.localDate;
-  
-  //console.log(tmEvents)
+  console.log(tmEvents)
   console.log(currentDate)
-  console.log(tmEvents[0].url)
-  console.log(tmEvents[0]._embedded.attractions[0].externalLinks.twitter[0].url)
-
+  renderHtml();
   return tmData;
 }
 
   // OPEN WEATHER API CALL
 const getOwData = async () => {
   const owResponse = await fetch(owApiRequest);
-  const owData = await owResponse.json();
-  
+  owData = await owResponse.json();
   owObj = {
     hour: owData.hourly,
     icon: owData.current.weather
   };
+  renderHtml();
+
   return owData;
 };
 
@@ -53,7 +57,7 @@ function renderHtml() {
       $(`#title${i}`).html(tmEvents[i].name)
       // updates event image in card
       $(`#img${i}`).attr({
-        src: tmEvents[i].images[i].url
+        src: tmEvents[i].images[0].url
       });
       
       // updates link url in card
@@ -74,11 +78,13 @@ function renderHtml() {
       $(`#distance${i}`).html(`Distance to Venue: ${tmEvents[i].distance} miles`)
 
       // adds link to twitter account
-      $(`#tweet${i}`).attr({
-        href: tmEvents[i]._embedded.attractions[0].externalLinks.twitter[0].url,
-        target: '_blank'
-      }).html('Click for latest Tweet!'); 
-
+      if (i <= 3) {
+        console.log(tmEvents[i]._embedded.attractions[0].externalLinks.twitter[0].url)
+        $(`#tweet${i}`).attr({
+          href: tmEvents[i]._embedded.attractions[0].externalLinks.twitter[0].url,
+          target: '_blank'
+        }).html('Click for latest Tweet!'); 
+      }
       // condition not executing although valid
       // checked ticketmaster.com for events happening today &
       // returned 6 results from varying sources
@@ -105,7 +111,6 @@ function renderHtml() {
         // parse moment.js value into a number for conditional statement.
         let currentHour = parseInt(moment().format('HH')) + i + 1
         $('#hour' + i).html(currentHour)
-        console.log(currentHour);
 
         if(currentHour < 12) {
           $('#hour' + i).html(currentHour + ':00am')
@@ -140,7 +145,6 @@ function renderHtml() {
   });
    
  };
- renderHtml();
 
 function geoLocate() {
   // check if browswer supports navigator method
@@ -187,8 +191,10 @@ searchBtn.on('click', (e) => {
   // prevent default behavior of searchBtn element <button>
   // to stop page from refreshing and resetting api parameters
   e.preventDefault();
-  renderHtml();
+
+  // need to change to grab input value and make api call
   geoLocate();
+  renderHtml();
   console.log('Search btn clicked!');
 });
 
