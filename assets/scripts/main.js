@@ -8,7 +8,11 @@ let owApiRequest = 'https://api.openweathermap.org/geo/1.0/direct?q=philadelphia
 let searchBtn = $('.custom-button');
 let geoBtn = $('#geo-btn');
 
+
 let citySearch = $('#findtext').val;
+
+// formats string from input to match url query 
+
 
 let eventObj = [];
 let hourObj = [];
@@ -18,9 +22,11 @@ let owObj = [];
 let tmEmbeddedKey = [];
 let owData = [];
 let tmData = [];
+let citySearch;
+let displayCity; 
 // displays current day to match TM date structure Example(2021-04-12)
 let currentDate = moment().format('YYYY-MM-DD');
-  
+
 // TICKET MASTER API CALL
 const getTmData = async () => {
   const tmResponse = await fetch(tmApiRequest);
@@ -69,11 +75,11 @@ function renderHtml() {
       }).html('Click for Ticket Sales');
       
       // updates weather h4 html text to users city
-      $('#your-city-weather').html(`Today's weather in ${tmEvents[0]._embedded.venues[0].city.name}`);
+      $('#your-city-weather').html(`Today's weather in ${displayCity}`);
       
       // updates event card h4 html text to users city
       // might want to leave this text as 'Events happening in your area today'
-      $('#your-city-card').html(`Events happening in ${tmEvents[0]._embedded.venues[0].city.name} today!`);
+      $('#your-city-card').html(`Events happening in ${displayCity} today!`);
       // updates event card p html text to event distance from you
       $(`#distance${i}`).html(`Distance to Venue: ${tmEvents[i].distance} miles`)
 
@@ -189,13 +195,24 @@ function geoLocate() {
     console.log('user is on an unsupported browser')
   }
 }
+
 // searchBtn on click event
 searchBtn.on('click', (e) => {
   // prevent default behavior of searchBtn element <button>
   // to stop page from refreshing and resetting api parameters
   e.preventDefault();
+  let citySearch = $('#findtext').val().toLowerCase().trim();
+//
+  displayCity = $(citySearch).val(localStorage.getItem('location'));
+  displayCity = `${citySearch[0].toUpperCase()}${citySearch.slice(1)}`;
+  let localStor = $('#findtext').val();
+  localStorage.setItem('city', localStor);
+  console.log(localStor);
+  console.log(Storage.length)
+  console.log(localStorage)
+  console.log(localStorage.getItem('city'));
 
-  // need to change to grab input value and make api call
+  // need to change this to grab input value and make api call
   geoLocate();
   renderHtml();
   console.log('Search btn clicked!');
