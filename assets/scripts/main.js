@@ -67,14 +67,14 @@ const getOwData = async () => {
   owData = await owResponse.json();
 
   owDataObj = {
-    hour: owData.hourly,
+    hour: owData.hourly.temp,
     icon: owData.current.weather,
     //lat: owData.lat,
     //lon: owData.lon
   };
 
   console.log(owData);
-  console.log(owDataObj.hour[0]);
+  console.log(owCityData);
 
   renderHtml();
 
@@ -93,7 +93,7 @@ function renderHtml() {
       $(`#title${i}`).html(tmEvents[i].name)
       // updates event image in card
       $(`#img${i}`).attr({
-        src: tmEvents[i].images[0].url
+        src: tmEvents[i].images[1].url
       });
       
       // updates link url in card
@@ -115,7 +115,6 @@ function renderHtml() {
 
       // adds link to twitter account
       if (i <= 3) {
-        console.log(tmEvents[i]._embedded.attractions[0].externalLinks.twitter[0].url)
         $(`#tweet${i}`).attr({
           href: tmEvents[i]._embedded.attractions[0].externalLinks.twitter[0].url,
           target: '_blank'
@@ -129,24 +128,23 @@ function renderHtml() {
         eventObj.push(date)
         console.log('loop is being reached')
       }
-      
-      owDataObj.hour.forEach((hour, i) => {
-        if (i < 6) {
+      /* console.log(owData.hourly.temp)
+       owDataObj.hour.forEach((hour, i) => {
+         if (i < 7) {
           hourObj.push(hour.temp[i]);
         }
-      });
+      }); */
 
-      owDataObj.icon.forEach((icon, i) => {
+      /* owDataObj.icon.forEach((icon, i) => {
         if (i < 6) {
           iconObj.push(icon[i]);
         }
-      });
+      }); */
       //console.log(owObj.icon)
 
       for (let i = 0; i < 7; i++) {
         // parse moment.js value into a number for conditional statement.
         let currentHour = parseInt(moment().format('HH')) + i + 1
-        $('#hour' + i).html(currentHour)
 
         if(currentHour < 12) {
           $('#hour' + i).html(currentHour + ':00am')
@@ -160,24 +158,33 @@ function renderHtml() {
         } else if (currentHour > 24) {
           $('#hour' + i).html((currentHour - 24) + ':00am')
         }
+
+        $('#icon'+ i).attr('src', `https://openweathermap.org/img/wn/${owData.hourly[i].weather[0].icon}@2x.png`)
+        $('#temp' + i).html('Temp: ' + owData.hourly[i].temp + '°F')
+        $('#hum' + i).html('Humidity: ' + owData.hourly[i].humidity + '%');
+
       };
 
+      $('#currentTemp').html('Temp: ' + owData.current.temp)
+      $('#currentIcon').attr('src', `https://openweathermap.org/img/wn/${owData.current.weather[0].icon}@2x.png`)
+      $('#currentHum').html('Humidity: ' + owData.current.humidity + '%');
+
       // move into for loop once click events are firing correctly
-      $('#currentTemp').html('Temp: ' + owData.current.temp + '°F')
-      $('#temp0').html('Temp: ' + hourObj[0] + '°F')
-      $('#temp1').html('Temp: ' + hourObj[1] + '°F')
+      //$('#currentTemp').html('Temp: ' + owData.current.temp + '°F')
+      /* $('#temp0').html('Temp: ' + owData.hourly[0].temp + '°F')
+      $('#temp1').html('Temp: ' + owData.hourly[1].temp + '°F')
       $('#temp2').html('Temp: ' + hourObj[2] + '°F')
       $('#temp3').html('Temp: ' + hourObj[3] + '°F')
       $('#temp4').html('Temp: ' + hourObj[4] + '°F')
-      $('#temp5').html('Temp: ' + hourObj[5] + '°F')
+      $('#temp5').html('Temp: ' + hourObj[5] + '°F') */
       
-      $('#currentIcon').attr('src', `https://openweathermap.org/img/wn/${owData.current.weather[0].icon}@2x.png`)
+      /* $('#currentIcon').attr('src', `https://openweathermap.org/img/wn/${owData.current.weather[0].icon}@2x.png`)
       $('#icon0').attr('src', `https://openweathermap.org/img/wn/${owData.hourly[0].weather[0].icon}@2x.png`)
       $('#icon1').attr('src', `https://openweathermap.org/img/wn/${owData.hourly[1].weather[0].icon}@2x.png`)
       $('#icon2').attr('src', `https://openweathermap.org/img/wn/${owData.hourly[2].weather[0].icon}@2x.png`)
       $('#icon3').attr('src', `https://openweathermap.org/img/wn/${owData.hourly[3].weather[0].icon}@2x.png`)
       $('#icon4').attr('src', `https://openweathermap.org/img/wn/${owData.hourly[4].weather[0].icon}@2x.png`)
-      $('#icon5').attr('src', `https://openweathermap.org/img/wn/${owData.hourly[5].weather[0].icon}@2x.png`)
+      $('#icon5').attr('src', `https://openweathermap.org/img/wn/${owData.hourly[5].weather[0].icon}@2x.png`) */
   });
    
  };
