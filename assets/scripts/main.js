@@ -18,6 +18,7 @@ let tmEmbeddedKey = [];
 let owData = [];
 let tmData = [];
 let citySearch;
+let locationSearch;
 let displayCity; 
 // displays current day to match TM date structure Example(2021-04-12)
 let currentDate = moment().format('YYYY-MM-DD');
@@ -32,7 +33,6 @@ const getTmData = async () => {
   // gets date for event
   let dates = tmEvents[0].dates.start.localDate;
   console.log(tmEvents)
-  console.log(currentDate)
   renderHtml();
   return tmData;
 }
@@ -192,7 +192,7 @@ searchBtn.on('click', (e) => {
   // prevent default behavior of searchBtn element <button>
   // to stop page from refreshing and resetting api parameters
   e.preventDefault();
-  let citySearch = $('#findtext').val().toLowerCase().trim();
+  citySearch = $('#findtext').val().toLowerCase().trim();
 //
   displayCity = $(citySearch).val(localStorage.getItem('location'));
   displayCity = `${citySearch[0].toUpperCase()}${citySearch.slice(1)}`;
@@ -212,6 +212,12 @@ searchBtn.on('click', (e) => {
 // geoBtn click event
 geoBtn.on('click', (e) => {
   e.preventDefault();
+  
+  citySearch = $('#findtext').val().toLowerCase().trim();
+
+  displayCity = $(citySearch).val(localStorage.getItem('location'));
+  displayCity = `${citySearch[0].toUpperCase()}${citySearch.slice(1)}`;
+
   geoLocate();
   renderHtml();
   console.log('geoBtn clicked!')
