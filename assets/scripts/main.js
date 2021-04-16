@@ -52,6 +52,10 @@ const getOwData = async () => {
 
 // renderHtml to browswer
 function renderHtml() {
+
+  // remove class from main-block to show content
+  $('.main-block').removeClass('hide');
+
     tmEvents.forEach((date, i) => {
       // updates event title in card
       $(`#title${i}`).html(tmEvents[i].name)
