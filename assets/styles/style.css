@@ -138,7 +138,7 @@
   padding: 10px;
 }
 
-.weather-block {
+#weather-block {
   background-color: rgb(233, 233, 233);
   background-size: 100% 100%;
 }
