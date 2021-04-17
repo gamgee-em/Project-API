@@ -105,7 +105,7 @@ function renderHtml() {
       
       // updates event card h4 html text to users city
       // might want to leave this text as 'Events happening in your area today'
-      $('#your-city-card').html(`Events happening in ${displayCity} today!`);
+      $('#your-city-card').html(`Events happening in ${displayCity} today`);
       // updates event card p html text to event distance from you
       $('#distance' + i).html('Distance to Venue:' + tmEvents[i].distance + 'miles')
 
