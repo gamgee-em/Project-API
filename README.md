@@ -7,7 +7,10 @@ Flobi is an application that allows users to grab hourly weather forecasts and a
 Deploy the application [here](https://samsweig.github.io/Project-API/) in your Firefox browser and search for your city.
 
 ## Usage
-
+![Application screenshot 1](https://github.com/samsweig/Project-API/blob/main/assets/Screen%20Shot%202021-04-17%20at%207.57.46%20AM.png)
+![Application screenshot 2](https://github.com/samsweig/Project-API/blob/main/assets/Screen%20Shot%202021-04-17%20at%207.58.11%20AM.png)
+![Application screenshot 3](https://github.com/samsweig/Project-API/blob/main/assets/Screen%20Shot%202021-04-17%20at%207.58.25%20AM.png)
+![Application screenshot 4](https://github.com/samsweig/Project-API/blob/main/assets/Screen%20Shot%202021-04-17%20at%207.58.57%20AM.png)
     
 ## Credits
 Credit goes out to the Penn LPS Bootcamp, our instructors, classmates, [Foundation](https://get.foundation/), [JavaScript](https://www.javascript.com/), [jQuery](https://jquery.com/), [OpenWeather](https://openweathermap.org/), [Ticketmaster](https://developer.ticketmaster.com/products-and-docs/apis/getting-started/), and [Moment.js](https://momentjs.com/). 
