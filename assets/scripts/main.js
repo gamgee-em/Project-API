@@ -30,9 +30,6 @@ const getTmData = async () => {
   console.log('getTmData being reached')
 
   tmApiRequest = `https://app.ticketmaster.com/discovery/v2/events.json?city=${citySearch}&apikey=0PYM69m0qo3ESz77SMGYGdnR0YZKo3oM`;
-  //let owApiRequest = 'https://api.openweathermap.org/geo/1.0/direct?q=philadelphia,pa,us&limit=2&appid=84d61ff029585a95fbd34cf405a10229&units=imperial';
-  // make api call with user input to get lat & lon
-  // then make another api call and pass in lat & lon
   const tmResponse = await fetch(tmApiRequest);
   tmData = await tmResponse.json();
   tmEmbeddedKey = tmData._embedded;
@@ -40,7 +37,7 @@ const getTmData = async () => {
   tmEvents = tmEmbeddedKey.events;
   // gets date for event
   let dates = tmEvents[0].dates.start.localDate;
-  console.log(tmEvents)
+  console.log(tmData)
   renderHtml();
   return tmData;
 }
@@ -69,8 +66,6 @@ const getOwData = async () => {
   owDataObj = {
     hour: owData.hourly.temp,
     icon: owData.current.weather,
-    //lat: owData.lat,
-    //lon: owData.lon
   };
 
   console.log(owData);
@@ -86,6 +81,7 @@ function renderHtml() {
   console.log('renderHTML being reached')
 
   // remove class from main-block to show content
+  $('.weather-block').removeClass('hide');
   $('.main-block').removeClass('hide');
 
     tmEvents.forEach((date, i) => {
@@ -111,21 +107,21 @@ function renderHtml() {
       // might want to leave this text as 'Events happening in your area today'
       $('#your-city-card').html(`Events happening in ${displayCity} today!`);
       // updates event card p html text to event distance from you
-      $(`#distance${i}`).html(`Distance to Venue: ${tmEvents[i].distance} miles`)
+      $('#distance' + i).html('Distance to Venue:' + tmEvents[i].distance + 'miles')
 
       // adds link to twitter account
+      
       if (i <= 3) {
-        $(`#tweet${i}`).attr({
+        $('#tweet' + i).attr({
           href: tmEvents[i]._embedded.attractions[0].externalLinks.twitter[0].url,
           target: '_blank'
         }).html('Click for latest Tweet!'); 
       }
-      // condition not executing although valid
-      // checked ticketmaster.com for events happening today &
-      // returned 6 results from varying sources
-      // look into sources
+    
+
       if (currentDate == tmEvents[i].dates.start.localDate) {
         eventObj.push(date)
+        console.log(eventObj)
         console.log('loop is being reached')
       }
 
@@ -167,10 +163,12 @@ function geoLocate() {
     let lon = position.coords.longitude;
     let latlon=`${position.coords.latitude},${position.coords.longitude}`;
 
-    // use obj literal to concat lat & lon to url query
-    tmApiRequest = `https://app.ticketmaster.com/discovery/v2/events.json?latlong=${latlon}&source=ticketmaster,universe,frontgate,tmr&radius=200&unit=miles&size=200&apikey=0PYM69m0qo3ESz77SMGYGdnR0YZKo3oM`;
+    // use obj literal to concat lat & lon to url query &source=ticketmaster,universe,frontgate,tmr
+    tmApiRequest = `https://app.ticketmaster.com/discovery/v2/events.json?latlong=${latlon}&radius=200&unit=miles&size=200&apikey=0PYM69m0qo3ESz77SMGYGdnR0YZKo3oM`;
     // open weather API call using the city query
     owApiRequest = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&appid=84d61ff029585a95fbd34cf405a10229&units=imperial`;
+    owCityRequest = `https://api.openweathermap.org/data/2.5/weather?q=${citySearch}&appid=84d61ff029585a95fbd34cf405a10229`;
+    
     console.log(lat, lon);
     getTmData();
     getOwData();
@@ -184,9 +182,7 @@ function geoLocate() {
     // 30sec
     let giveUp = 1000 * 30;
     // 1hr
-
     let tooOld = 100 * 60 * 60;
-
     let options = {
       // drains users battery faster by providing more calls and increased location accuracy
       enableHighAccuracy: true,
@@ -204,9 +200,6 @@ function geoLocate() {
 // searchBtn on click event
 searchBtn.on('click', (e) => {
   console.log('searchBtn being reached')
-
-  // prevent default behavior of searchBtn element <button>
-  // to stop page from refreshing and resetting api parameters
   e.preventDefault();
   citySearch = $('#findtext').val().toLowerCase().trim();
 //
@@ -215,13 +208,7 @@ searchBtn.on('click', (e) => {
 
   let localStor = $('#findtext').val();
   localStorage.setItem('city', localStor);
-  //console.log(localStor);
-  //console.log(Storage.length)
-  //console.log(localStorage)
-  //console.log(localStorage.getItem('city'));
 
-  // need to change this to grab input value and make api call
-  //geoLocate();
   getTmData();
   getOwData();
 });
@@ -229,21 +216,20 @@ searchBtn.on('click', (e) => {
 // geoBtn click event
 geoBtn.on('click', (e) => {
   console.log('geoBtn being reached')
-
+  
   e.preventDefault();
-  // value needs to populate from tmAPI vender i think 
-  // cannot access value from inside the geoBtn click event
-  // citySearch = owCityData.name;
+  // this value WOULD work but cannot access value from...
+  // inside the geoBtn click event it is available inside of the async function
+  //citySearch = owCityData.name;
 
-  // place holder until I figure out how to access the data above
-  citySearch = 'Philadelphia';
+  // place holder until we figure out how to access the data above
+  //citySearch = 'Philadelphia';
 
-  //displayCity = $(citySearch).val(localStorage.getItem('location'));
-  displayCity = `${citySearch[0].toUpperCase()}${citySearch.slice(1)}`;
+  //displayCity = `${citySearch[0].toUpperCase()}${citySearch.slice(1)}`;
   
   getOwData();
-  geoLocate();
   getTmData();
+  geoLocate();
 });
 
 console.log('end of code being reached');
