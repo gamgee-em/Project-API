@@ -80,6 +80,8 @@ const getOwData = async () => {
 function renderHtml() {
   console.log('renderHTML being reached')
 
+  // add class to loading-image to hide content
+  $('#loading-image').addClass('hide');
   // remove class from main-block to show content
   $('.weather-block').removeClass('hide');
   $('.main-block').removeClass('hide');
