@@ -103,6 +103,7 @@
 .hero-search-filter-form input,
 .hero-search-filter-form .button {
   margin-bottom: 0;
+  border-radius: 5px;
 }
 
 @media screen and (max-width: 39.9375em) {
@@ -220,4 +221,10 @@ body {
 
 .event-card a {
   color:rgb(214, 138, 67)
+}
+
+.event-card p {
+  font-weight: 550;
+  color: rgb(132, 132, 130);
+  padding: 2% 0 0 0;
 }
