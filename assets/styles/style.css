@@ -193,3 +193,25 @@ body {
 .hide {
   display: none;
 }
+
+.event-card {
+  padding: 10px;
+}
+
+.event-card img {
+  border-radius: 7px;
+  padding-bottom: 5px;
+}
+
+.event-card h4 {
+  font-weight: bolder;
+}
+
+#events-subtext {
+  color: rgb(201, 108, 21);
+  font-weight: bolder;
+}
+
+.event-card a {
+  color:rgb(214, 138, 67)
+}
